@@ -16,6 +16,10 @@ We are the Advanced and Digital Innovation Hub team from Acciona S.A., Spain. He
 
 Please keep in mind that we may update this utilities from time to time, but don't have any plan to do it regularly. We hope this tools can help developers to create awesome experiences with Magic Leap and Unity.
 
+## License
+
+[MIT License](LICENSE)
+
 # Contact
 
 We can't guarantee any support for this project, but in case you want to contact us, please write an e-mail to <pagutierrezm.ext@acciona.com>
