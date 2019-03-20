@@ -6,7 +6,7 @@ Hi there!
 
 We are the Advanced and Digital Innovation Hub team from Acciona S.A., Spain. Here, at the Mixed Reality Skill Center, we have been working with the Magic Leap device for a while. On the process we have developed some useful tools for Unity that we really wanted to share with the community.
 
-# Project setup
+## Project setup
 
 This project was made with Unity 2018.1.9f2-MLTP10. You can download the Technical Preview [here](https://unity3d.com/es/partners/magicleap). Clone or download the repository and open AccionaMLUtils folder with Unity.
 
