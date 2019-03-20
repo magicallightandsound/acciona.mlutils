@@ -1,3 +1,4 @@
+﻿/*
 MIT License
 
 Copyright (c) 2019 ACCIONA S.A.
@@ -19,3 +20,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Acciona.MLUtils.Examples
+{
+	public class AppConfiguration : MonoBehaviour
+	{
+		void Awake ()
+		{
+			// this is just for more confortable console log reading from mldb
+	#if !UNITY_EDITOR
+			Application.SetStackTraceLogType(LogType.Assert, StackTraceLogType.None);
+			Application.SetStackTraceLogType(LogType.Error, StackTraceLogType.None);
+			Application.SetStackTraceLogType(LogType.Exception, StackTraceLogType.None);
+			Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
+			Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
+	#endif
+		}
+	}
+}

@@ -1,0 +1,25 @@
+# Example Scene: CanvasPointer
+
+This example demonstrates how to use the MLUController class for easier controller handling (6DOF positioning and Unity like input)
+and the MLUControllerPointer to have full compatibility with the Unity canvas input.
+
+For using the Magic Leap 6DOF controller with the Unity canvas input system without the need of extra work on a custom collider system to detect
+buttom presses or other stuff, just create a new GameObject, add the MLUController and MLUControllerPointer components and then replace the
+Standalone Input Module component on the "EventSystem" GameObject with the MLURayPointerInputModule component (also assign to this component a
+reference to the MLUControllerPointer in the inspector). A compatible canvas must be in world space, have a GraphicRaycaster component and doesn't
+need any event cameras assigned. The MLURayPointerInputModule will create a special event camera and automatically assign it to all compatible
+world space canvases.
+
+In the scene we currently have two test world space canvases. The purpose of the second one is to test that the pointer does not transfer events to
+elements hidden behind a canvas raycast target.
+
+
+## Bumper
+Use the bumper as mouse button left click when pointing at the test canvas.
+
+## Touchpad
+Slide your finger horizontally or vertically through the touchpad when pointing at the text area to scroll the window.
+
+#### NOTE: MLUControllerPointer extends MLURayPointer abstract class. You can easely extend MLURayPointer class to use the MLURayPointerInputModule in other
+Mixed Reality applications (like HTC Vive or Oculus Rift 6DOF controllers). You will only need to copy MLUGraphicRaycasterUtility.cs, MLURaycastResult.cs,
+MLURayPointerInputModule.cs and MLURayPointer.cs scripts to export this functionality to other non Magic Leap projects.

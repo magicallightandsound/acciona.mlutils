@@ -1,3 +1,4 @@
+﻿/*
 MIT License
 
 Copyright (c) 2019 ACCIONA S.A.
@@ -19,3 +20,42 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Acciona.MLUtils.Examples
+{
+	[RequireComponent(typeof(MLUPersistentObject))]
+	public class PersistentObjectStatus : MonoBehaviour
+	{
+		public Text text;
+
+		private MLUPersistentObject persistentObject;
+
+		void Awake ()
+		{
+			persistentObject = GetComponent<MLUPersistentObject>();
+		}
+
+		void Update ()
+		{
+			if (persistentObject.IsBinded)
+			{
+				text.text = "Binded";
+				text.color = Color.green;
+			}
+			else if (persistentObject.IsRestoring)
+			{
+				text.text = "Restoring...";
+				text.color = Color.yellow;
+			}
+			else
+			{
+				text.text = "Not binded";
+				text.color = Color.red;
+			}
+		}
+	}
+}

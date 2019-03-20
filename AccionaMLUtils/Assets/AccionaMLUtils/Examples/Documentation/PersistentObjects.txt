@@ -1,0 +1,59 @@
+# Example Scene: PersistentObjects
+
+This example demonstrates how to use the Acciona's MLUtils persistent bindings utility.
+
+To create persistent objects between scenes using current Magic Leap PCF system you only need to add the MLUPersistentObject component
+to a GameObject. The real advantage of this system is the way it works under the hood. It allows the developer to save every binding with
+a landscape separatelly on different binding libraries. Also each MLUPersistentObject can be assigned different binding libraries on
+the same scene.
+
+The way the system works enables different layers of abstraction. Just adding the MLUPersistentObject to any GameObject will
+work, but you can also configure your own binding libraries or tweak the persistent object's behaviour when binding to the scene.
+
+You will need the 6DOF controller to interact with the example scene. Simple instructions are given on a floating headpose canvas. Once
+you spawn 5 new Acciona boxes you can restart the application and see how they are restored on their positions.
+
+############################################################
+#### More information about the persistence system
+############################################################
+
+Please apologise for the lack of documentation in the following section, I will try to briefly explain the complexity of the underlying system
+as precise as posible. Also you can refer to the code itself since almost every method and class is explained in XML doc comments.
+
+Binding Libraries can be statically managed with the MLUBindingLibrariy class. If no explicit action is performed by the developer (from code)
+there will be always a default binding library loaded (it will also be used by default by every MLUPersistentObject if no other binding library
+is assigned to them explicitly). To create, load, save and delete binding libraries, static methods from MLUBindingLibrary should be always
+used.
+
+MLUBindingLibrary.Current is the default binding library that all MLUPersistentObjects will use if no other binding library is explicitly set individually.
+You can load any binding library as the Current library any time you want using the MLUBindingLibrary static methods. MLUPersistentObjects will
+try to restore themselves from Current library on Awake. If you load a new Current library, TryRestore method must be called on each MLUPersistentObject to
+restore their bindings with the new Current library.
+
+MLUPersistentObjects can be binded and unbinded from current landscape without modifying the binding library if explicitly set as a unique bool parameter.
+Binding or unbinding to the landscape without updating the binding library will just change the object's binding state (parenting with PCFs transform, etc).
+SaveBindingToLibrary() can be called to update the currently used binding library (also don't forget to save the binding library to device's storage
+if the library was not set to automatically save on application close). Please note that calling TryBind() on a persistent object may fail if no suitable 
+landscape information is present. One of the main differences with the current official persistence system is that all landscape PCFs inside a radius from the object
+will be binded and, when restoring the object, only the currently active and closest PCF will be used.
+
+Any time a MLUPersistentObject global transform state is changed it will unbind itself without updating the binding library. This means that binding state will
+change to not binded since it has moved from its original binded state. TryRestore can be performed to go back to its previous binded state or the object will try
+to rebind itself if autoBindAndSave is checked on the inspector. By default every MLUPersistentObject will always stay binded to the landscape as long as its
+global transform stays stationary.
+
+Binding libraries can be set to automatically save on application close, or saved explicitly in any moment. By default, all created binding libraries
+are of MLUSecureSTorageDBD type. You can change the default binding library type by setting the MLUBindingLibrary.bindingLibraryCreator attribute to 
+a delegate that returns a new binding library instance.
+
+MLUBindingLibrary class is abstract, it defines an object that is able to store landscape or PCF bindings with unique string keys:
+
+	# MLUDictionaryBD is a first implementation that defines the runtime store behaviour using C# Generic Dictionaries
+	from System.Collections.Generic package. This implementation is still abstract because it does not define how to load, save
+	or delete the library data to device's storage.
+
+	# There are currently two different implementations of MLUDictionaryDB that developers can use: MLUFileDBD, which stores the data on a binary file
+	on application's private storage (PersistentDataPath); and MLUSecureStorageDBD (the default), which stores the data using Magic Leap's Secure Storage API.
+
+If you wants to use other ways of data storage (like cloud hosted services), just implement MLUDictionaryBD abstract class. If you need to handle a lot of bindings
+and need better performance, implement MLUBindingLibrary class to define how bindings are stored at runtime and on device storage.
